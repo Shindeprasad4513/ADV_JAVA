@@ -1,0 +1,89 @@
+//1.Write a JSP program to accept Name and Age of Voter and check whether he is eligible for voting or not. [10 M]
+
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+pageEncoding="UTF-8"%>
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+<form action="">
+<input type="text" name="name" placeholder="Enter Name of Voter"><br><br>
+<input type="text" name="age" placeholder="Enter age of Voter"><br><br>
+<input type="submit" value="check">
+</form>
+<%
+String name=request.getParameter("name");
+if(name!=null)
+{
+int age=Integer.parseInt(request.getParameter("age"));
+if(age>=18)
+{
+out.println(" Eligible for Voting");
+}
+else
+{
+out.println("Not Eligible for Voting");
+}
+}
+%>
+</body>
+</html>
+
+
+//2.Write a Java Program for the following: Assume database is already created.
+
+
+import java.awt.FlowLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.sql.*;
+import javax.swing.*;
+import javax.swing.table.DefaultTableModel;
+public class slip25_2 extends JFrame implements ActionListener
+{
+JButton create,alter,drop;
+JTextField t;
+public slip25_2()
+{
+setSize(300, 300);
+setVisible(true);
+setLayout(new FlowLayout());
+t=new JTextField(20);
+add(t);
+create=new JButton("create");
+add(create);
+create.addActionListener(this);
+alter=new JButton("alter");
+add(alter);
+alter.addActionListener(this);
+drop=new JButton("drop");
+drop.addActionListener(this);
+add(drop);
+}
+public static void main(String[] args) {
+new slip25_2();
+}
+@Override
+public void actionPerformed(ActionEvent e) {
+try
+{
+PreparedStatement p;
+Class.forName("org.postgresql.Driver");
+Connection con=DriverManager.getConnection("jdbc:postgresql://localhost:5432/mahesh","postgres","");
+if(e.getSource()==create||e.getSource()==alter||e.getSource()==drop)
+{
+String q=t.getText();
+p=con.prepareStatement(q);
+p.execute();
+JOptionPane.showMessageDialog(null,"suceessfull","sucess",JOptionPane.INFORMATION_MESSAGE);
+t.setText(" ");
+}
+}catch(Exception e1)
+{
+System.out.println(e1);
+}
+}
+}
