@@ -1,0 +1,102 @@
+//1.Write a Menu Driven program in Java for the following: Assume Employee table with attributes (ENo, EName, Salary) is already created. 1. Insert 2. Update 3. Display 4. Exit. [10 M]
+ 
+package prasad;
+import java.sql.*;
+import java.util.*;
+public class slip22a 
+{
+	public static void main(String[] args) throws Exception
+	{
+      Class.forName("org.postgresql.Driver");
+      Connection con;
+      PreparedStatement pmt;
+      con=DriverManager.getConnection("jdbc:postgresql://localhost:5432/postgres","postgres","prasad");
+      int ch=0;
+      Scanner sc=new Scanner(System.in);
+      do
+      {
+    	  System.out.println("\n**********MENU**********\n");
+    	  System.out.println("\n1.Insert\n2.Update\n3.Display\n4.Exit\n");
+    	  System.out.println("Enter Your Choice:");
+    	  ch=sc.nextInt();
+    	  switch(ch)
+    	  {
+    	  case 1 : 
+    		  System.out.println("Enter Eno Ename Salary to Insert:");
+    		  int no=sc.nextInt();
+    		  String nm=sc.next();
+    		  int s=sc.nextInt();
+    		  String q="insert into emp values(?,?,?)";
+    		  pmt=con.prepareStatement(q);
+    		  pmt.setInt(1,no);
+    		  pmt.setString(2,nm);
+    		  pmt.setInt(3,s);
+    		  pmt.executeUpdate(); 
+    		  System.out.println("Inserted Sucessful..!");
+    	      break;
+    	  case 2 :
+    		  System.out.println("Enter Ename to Update:");
+     		  nm=sc.next();
+    		  String q1="update emp set sal=sal+5000 where ename=?";
+    	      pmt=con.prepareStatement(q1);
+    	      pmt.setString(1,nm);
+    	      pmt.executeUpdate();
+    	      System.out.println("Updated Sucessful..!");
+    	      break;
+    	  case 3 :
+    		  String q2="select * from emp";
+    		  pmt=con.prepareStatement(q2);
+    		  ResultSet rs=pmt.executeQuery();
+    		  while(rs.next())
+    		  {
+    			  System.out.println(rs.getInt("eno")+"\t"+rs.getString("ename")+"\t"+rs.getInt("sal"));
+    		  }
+    		  break;
+    		default : System.out.println("Exit..");   
+    	  }
+      }while(ch<3);
+	}
+
+}
+
+2.Write a JSP program which accepts UserName in a TextBox and greets the user according to the time on server machine
+
+
+
+
+<%@page import="java.util.Calendar"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+pageEncoding="UTF-8"%>
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+<form action="slip22_2.jsp">
+<input type="text" name="name" placeholder="Enter name">
+<input type="submit" value="Greet">
+</form>
+<%
+Calendar calendar=Calendar.getInstance();
+String name=request.getParameter("name");
+int hours=calendar.get(Calendar.HOUR_OF_DAY);
+String greet="";
+if(hours>=5 && hours<=12)
+{
+greet="Good morning";
+}
+else if(hours>12 && hours<=18)
+{
+greet="Good Afternoon";
+}
+else
+{
+greet="Good Evening";
+}
+out.println("<h1>"+greet+" "+name+ "</h1>");
+%>
+</body>
+</html>
+
