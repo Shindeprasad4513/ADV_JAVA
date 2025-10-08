@@ -1,0 +1,97 @@
+//1.Write a JSP program to check whether given number is Perfect or not. (Use Include directive). [10 M]
+
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+pageEncoding="UTF-8"%>
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+<form method="post">
+<input type="text" name="number" placeholder="Enter number">
+<input type="submit" value="check">
+<%@include file="slip12_1_1.jsp" %>
+</body>
+</html>
+Jsp
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+pageEncoding="UTF-8"%>
+<!DOCTYPE html>
+<%
+String no=request.getParameter("number");
+if(no!=null)
+{
+int n=Integer.parseInt(no);
+int sum=0;
+for(int i=1;i<n;i++)
+{
+if(n%i==0)
+{
+sum=sum+i;
+}
+}
+if(sum==n)
+{
+out.println("no is perfect");
+}
+else
+{
+out.println("no is not perfect");
+}
+}
+else
+{
+//out.println("Enter no");
+}
+%>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+</body>
+</html>
+
+//2.Write a Java Program to create a PROJECT table with field’s project_id, Project_name, Project_description, Project_Status. Insert values in the table. Display all the details of the PROJECT table in a tabular format on the screen. (using swing).
+
+import java.awt.*;
+import java.sql.*;
+import javax.swing.*;
+import javax.swing.table.DefaultTableModel;
+public class slip12_2 extends JFrame
+{
+public slip12_2()
+{
+setSize(300, 300);
+setVisible(true);
+setLayout(new FlowLayout());
+try
+{
+PreparedStatement p;
+Class.forName("org.postgresql.Driver");
+Connection con=DriverManager.getConnection("jdbc:postgresql://localhost:5432/mahesh","postgres","");
+String q="select * from product";
+p=con.prepareStatement(q);
+DefaultTableModel model=new DefaultTableModel(new String[] {"pid","pname","description","status"},0);
+ResultSet rs=p.executeQuery();
+while(rs.next())
+{
+model.addRow(new Object[] {rs.getInt(1),rs.getString(2),rs.getString(3),rs.getString(4)});
+}
+JTable table=new JTable();
+table.setModel(model);
+JScrollPane scrollPane = new JScrollPane(table);
+add(scrollPane);
+}catch(Exception e)
+{
+System.out.println(e);
+}
+}
+public static void main(String[] args)
+{
+new slip12_2();
+}
+}
