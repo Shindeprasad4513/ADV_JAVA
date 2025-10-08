@@ -1,0 +1,65 @@
+//1.Write a java program to accept ‘N’ Integers from a user store them into LinkedList Collection and display only negative integers. [10 M]
+package prasad;
+import java.util.*;
+public class slip19a {
+ 	 public static void main(String[] args) {
+		Scanner sc=new Scanner(System.in);
+	    int n;
+	    System.out.println("Enter NO of Elements:");
+	    n=sc.nextInt();
+	    LinkedList<Integer> no=new LinkedList<Integer>();
+	    System.out.println("Enter "+n+" numbers:");
+	    for(int i=0;i<n;i++)
+	    {
+	    	no.add(sc.nextInt());
+	    }
+	    System.out.println("Negative Numbers:");
+	    for (int num : no) {
+            if (num < 0) {
+                System.out.print(num + "\n");
+            }
+        }
+	 
+	 }
+}
+
+//2.Write a SERVLET application to accept username and password, search them into database, if found then display appropriate message on the browser otherwise display error message.
+
+import java.io.*;
+import java.sql.*;
+import jakarta.servlet.ServletException;
+import jakarta.servlet.annotation.WebServlet;
+import jakarta.servlet.http.*;
+@WebServlet("/slip19")
+public class slip19_2 extends HttpServlet
+{
+@Override
+protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+try
+{
+resp.setContentType("text/html");
+PrintWriter out=resp.getWriter();
+String user=req.getParameter("user");
+String pass=req.getParameter("pass");
+Class.forName("org.postgresql.Driver");
+Connection con=DriverManager.getConnection("jdbc:postgresql://localhost:5432/mahesh","postgres","");
+String query="select * from login";
+PreparedStatement pmt=con.prepareStatement(query);
+ResultSet rs=pmt.executeQuery();
+if(rs.next())
+{
+if(rs.getString(1).equals(user) && rs.getString(2).equals(pass))
+{
+out.println("Login Successfull");
+}
+else
+{
+out.println("Please enter valid username and Password");
+}
+}
+}catch(Exception e)
+{
+System.out.println(e);
+}
+}
+}
