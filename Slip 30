@@ -1,0 +1,72 @@
+//1.Write a java program for the implementation of synchronization. [10 M]
+
+class threadsync extends Thread
+{
+static synchronized public void display()
+{
+System.out.println(Thread.currentThread().getName());
+}
+public void run()
+{
+for(int i=0;i<10;i++)
+{
+display();
+}
+}
+}
+public class slip30_1
+{
+public static void main(String[] args)
+{
+threadsync t=new threadsync();
+Thread t1=new Thread(t,"Thread-1");
+Thread t2=new Thread(t,"THread-2");
+t1.start();
+t2.start();
+}
+}
+
+//2.Write a Java Program for the implementation of scrollable ResultSet. Assume Teacher table with attributes (TID, TName, Salary) is already created
+
+import java.sql.*;
+public class slip30_2
+{
+public static void main(String[] args)
+{
+try
+{
+Connection con;
+PreparedStatement pmt;
+Class.forName("org.postgresql.Driver");
+con=DriverManager.getConnection("jdbc:postgresql://localhost:5432/mahesh","postgres","");
+String q="select * from stud";
+pmt=con.prepareStatement(q,ResultSet.TYPE_SCROLL_SENSITIVE,ResultSet.CONCUR_UPDATABLE);
+ResultSet rs=pmt.executeQuery();
+if(rs.first())
+{
+System.out.println(rs.getInt(1));
+System.out.println(rs.getString(2));
+}
+if(rs.last())
+{
+System.out.println(rs.getInt(1));
+System.out.println(rs.getString(2));
+}
+if(rs.previous())
+{
+System.out.println(rs.getInt(1));
+System.out.println(rs.getString(2));
+}
+if(rs.absolute(3))
+{
+System.out.println(rs.getInt(1));
+System.out.println(rs.getString(2));
+}
+}catch(Exception e1)
+{
+System.out.println(e1);
+}
+}
+}
+
+
