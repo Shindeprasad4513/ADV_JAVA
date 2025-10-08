@@ -1,0 +1,56 @@
+//1.Write a Java program to display information about all columns in the DONAR table using ResultSetMetaData. [10 M]
+
+package prasad;
+import java.sql.*;
+public class slip11a  
+{
+  public static void main(String[] args)throws Exception {
+	Class.forName("org.postgresql.Driver");
+	Connection con;
+	PreparedStatement pmt;
+	con=DriverManager.getConnection("jdbc:postgresql://localhost:5432/postgres","postgres","prasad");
+	String q="select * from donar";
+	pmt=con.prepareStatement(q);
+	ResultSet rs=pmt.executeQuery();	
+	ResultSetMetaData rm=rs.getMetaData(); 
+	System.out.println("Total no of Columns:"+rm.getColumnCount());
+	System.out.println("Column 1 label:"+rm.getColumnLabel(1));
+	System.out.println("Column 2 label:"+rm.getColumnLabel(2));
+    System.out.println("Column 1 Name:"+rm.getColumnName(1));
+    System.out.println("Column 2 Name:"+rm.getColumnName(2));
+    System.out.println("Table Name"+rm.getTableName(1));
+    System.out.println("Column Type:"+rm.getColumnType(1));
+  }
+}
+
+
+/*
+2.Write a Java program to create LinkedList of integer objects and perform the following:
+i.
+Add element at first position
+ii.
+Delete last element
+iii.
+Display the size of link list
+*/
+
+import java.util.*;
+public class slip29_2 {
+public static void main(String[] args)
+{
+LinkedList list=new LinkedList();
+list.add("rbnb");
+list.add("College");
+list.add("Shrirampur");
+list.add(413709);
+System.out.println(list);
+//Add element at first position
+list.addFirst("computer");
+System.out.println(list);
+//Delete last element
+list.removeLast();
+System.out.println(list);
+//Display the size of link list
+System.out.println("Length of list::"+list.size());
+}
+}
