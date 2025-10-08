@@ -1,0 +1,55 @@
+//1.Write a java program to display name and priority of a Thread.
+package prasad;
+import java.util.*;
+public class slip14a extends Thread {
+	public void run()
+	{
+		System.out.println("Thread Name="+Thread.currentThread().getName());
+		System.out.println("Thread Priority="+Thread.currentThread().getPriority());
+	}
+ public static void main(String[] args) {
+	slip14a t=new slip14a();
+	t.start();
+}
+}
+
+
+
+//2.Write a JSP program to calculate sum of first and last digit of a given number. Display sum in Red Color with font size 18.
+
+
+<%@ page language="java" contentType="text/html; charset=ISO-8859-1" pageEncoding="ISO-8859-1"%>
+<!DOCTYPE html>
+<html>
+<head>
+<title>Sum of First and Last Digit</title>
+</head>
+<body>
+<form method="post" action="">
+    Enter a Number: <input type="text" name="num" required>
+    <input type="submit" value="Calculate">
+</form>
+
+<%
+if(request.getParameter("num") != null){
+    int n = Integer.parseInt(request.getParameter("num"));
+    int last = n % 10;
+    int first = n;
+
+    while(first >= 10) {
+        first = first / 10;
+    }
+
+    int sum = first + last;
+%>
+
+<h2 style="color:red; font-size:18px;">
+    Sum of First and Last Digit = <%= sum %>
+</h2>
+
+<%
+}
+%>
+</body>
+</html>
+
