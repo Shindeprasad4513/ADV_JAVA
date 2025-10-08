@@ -1,0 +1,140 @@
+//1.Write a java program that implements a multi-thread application that has three threads. First thread generates random integer number after every one second, if the number is even; second thread computes the square of that number and print it. If the number is odd, the third thread computes the of cube of that number and print it. [10 M]
+
+package prasad;
+import java.util.*;
+class thread1 implements Runnable
+{
+	Thread t;
+	Random r;
+	int n;
+	public thread1()
+	{
+		t=new Thread(this);
+		r=new Random();
+		t.start();
+	}
+	public void run()
+	{
+ 		for(int i=0;i<10;i++)
+		{
+ 			try {
+			n=r.nextInt(15);
+		     
+			if(n%2==0)
+			{
+				thread2 t2=new thread2(n);
+				t=new Thread(t2);
+				t.start();
+				t.sleep(2000);
+				  
+			}
+			else
+			{
+				thread3 t3=new thread3(n);
+				t=new Thread(t3);
+				t.start();
+				t.sleep(2000);
+			}
+ 		}catch(Exception e)
+ 			{
+ 			System.out.println(e);
+ 			}
+		}
+	}
+}
+class thread2 implements Runnable
+{
+	int n;
+	public thread2(int n)
+	{
+		this.n=n;
+	}
+	public void run()
+	{
+		System.out.println("Sum of "+n+"="+Math.pow(n, 2));
+	}
+}
+
+class thread3 implements Runnable
+{
+	int n;
+	public thread3(int n)
+	{
+		this.n=n;
+	}
+	public void run()
+	{
+		System.out.println("Cube of "+n+"="+Math.pow(n,3));
+	}
+}
+
+public class slip7a 
+{ 
+  public static void main(String[] args) {
+	new thread1();
+}
+  
+}
+
+
+/* 
+2.Write a java program for the following:
+i.
+To create a Product(Pid, Pname, Price) table.
+ii.
+Insert at least five records into the table.
+iii.
+Display all the records from a table.
+*/
+package prasad;
+import java.sql.*;
+public class slip7b 
+{
+	public static void main(String[] args) throws Exception
+	{
+       Class.forName("org.postgresql.Driver");
+       Connection con;
+       PreparedStatement pmt;
+       con=DriverManager.getConnection("jdbc:postgresql://localhost:5432/postgres","postgres","prasad");
+     /* String q="create table Product(Pid int,Pname varchar(20),prize int)";
+	   pmt=con.prepareStatement(q);
+	   pmt.execute();
+	   System.out.println("Table Created..!");
+	*/
+	  String q1="insert into Product values(?,?,?)";
+	  pmt=con.prepareStatement(q1);
+	  pmt.setInt(1,501); 
+	  pmt.setString(2,"pen");
+	  pmt.setInt(3,20);
+	  pmt.executeUpdate();
+	  pmt.setInt(1,502); 
+	  pmt.setString(2,"pencil");
+	  pmt.setInt(3,10);
+	  pmt.executeUpdate();
+	  pmt.setInt(1,503); 
+	  pmt.setString(2,"book");
+	  pmt.setInt(3,200);
+	  pmt.executeUpdate();
+	  pmt.setInt(1,504); 
+	  pmt.setString(2,"bottle");
+	  pmt.setInt(3,60);
+	  pmt.executeUpdate();
+	  pmt.setInt(1,505); 
+	  pmt.setString(2,"bag");
+	  pmt.setInt(3,500);
+	  pmt.executeUpdate();
+	  
+	  String q3="select * from Product";
+	  pmt=con.prepareStatement(q3);
+      ResultSet rs=pmt.executeQuery();
+      while(rs.next())
+      {
+    	  System.out.println(rs.getInt("Pid")+"\t"+rs.getString("Pname")+"\t"+rs.getInt("prize"));
+      }
+	
+	}
+
+}
+
+
+
