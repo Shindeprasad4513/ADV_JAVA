@@ -1,0 +1,131 @@
+//1.Write a Java program to accept ‘n’ integers from the user and store them in a collection. Display them in the sorted order. The collection should not accept duplicate elements. (Use a suitable collection). Search for a particular element using predefined search method in the Collection framework. [10 M]
+
+package prasad;
+import java.util.*;
+public class slip6a
+{
+ public static void main(String[] args) {
+	 Scanner sc=new Scanner(System.in);
+	 System.out.println("Enter no of Elements:");
+	 int n=sc.nextInt();
+	 HashSet h=new HashSet();		
+	 System.out.println("Enter Elements:");
+	 for(int i=0;i<n;i++)
+	 {
+		 h.add(sc.nextInt());
+	 }
+	 TreeSet sort=new TreeSet(h);
+	 System.out.println("Sorted elements::"+sort);
+	 System.out.println("Enter Element to Search:");
+	 int ch=sc.nextInt();
+	 if(h.contains(ch))
+	    System.out.println(ch+" is Present.");
+     else
+    	 System.out.println(ch+" is not Present.");
+ }
+}
+ 
+
+//2.Write a java program to simulate traffic signal using threads.
+package prasad;
+import java.util.*;
+
+import javax.swing.ButtonGroup;
+import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.JRadioButton;
+import javax.swing.SwingConstants;
+
+import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+public class slip6b extends JFrame implements ActionListener,Runnable
+{
+	JLabel h,msg;
+	JPanel p;
+	JButton st;
+	JRadioButton b1,b2,b3;
+	ButtonGroup bg;
+	Thread t;
+	boolean running=true;
+	slip6b()
+	{
+		t=new Thread(this);
+		setSize(500,500);
+		setLocation(400,300);
+		h=new JLabel("Traffic Signals",SwingConstants.CENTER);
+	    h.setFont(new Font("Arial",Font.BOLD,30));
+	    add(h,BorderLayout.NORTH);
+	    msg=new JLabel("",SwingConstants.CENTER);
+	    msg.setFont(new Font("Arial",Font.BOLD,40));
+	    add(msg);
+	    b1=new JRadioButton("Red"); 
+	    b1.setForeground(Color.red);
+	    b2=new JRadioButton("Yellow");
+	    b2.setForeground(Color.yellow);
+	    b3=new JRadioButton("Green");
+	    b3.setForeground(Color.green);
+	 
+	    bg=new ButtonGroup();
+	    bg.add(b1);
+	    bg.add(b2);
+	    bg.add(b3);
+	    
+	    st=new JButton("Start");
+	    p=new JPanel();
+	    p.add(b1);
+	    p.add(b2);
+	    p.add(b3);
+	    p.add(st);
+	    add(p,BorderLayout.SOUTH);
+	    st.addActionListener(this);
+	    setVisible(true);
+	    }
+	 @Override
+	public void actionPerformed(ActionEvent e) {
+	 	if(e.getSource()==st)
+	 	{
+	 		t.start();
+	 	}
+	}
+	 public void run()
+	 {  
+		try
+		{
+		 while(running)
+		 {
+			 b1.setSelected(true);
+			 if(b1.isSelected())
+			 {
+				 msg.setText("Stop");
+				 msg.setForeground(Color.red);
+			 }
+			 Thread.sleep(1000);
+			 b2.setSelected(true);
+			 if(b2.isSelected())
+			 {
+				 msg.setText("Ready");
+				 msg.setForeground(Color.yellow);
+			 }
+			 Thread.sleep(1000);
+			 b3.setSelected(true);
+			 if(b3.isSelected())
+			 {
+				 msg.setText("Run");
+				 msg.setForeground(Color.green);
+			 }
+			 Thread.sleep(1000);
+		 }
+		}catch(InterruptedException e)
+		 {
+			 System.out.println(e);
+		 }
+		}
+  
+  public static void main(String[] args) {
+	 new slip6b();
+}
+}
+
