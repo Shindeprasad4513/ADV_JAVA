@@ -1,0 +1,91 @@
+//1.Write a JSP program to display the details of Patient (PNo, PName, Address, age, disease) in tabular form on browser. [10 M]
+
+<%@page import="java.sql.*"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+pageEncoding="UTF-8"%>
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+<%
+try
+{
+Class.forName("org.postgresql.Driver");
+Connection con=DriverManager.getConnection("jdbc:postgresql://localhost:5432/mahesh","postgres","");
+String query="select * from hospital";
+PreparedStatement pmt=con.prepareStatement(query);
+ResultSet rs=pmt.executeQuery();
+%>
+<table border=1>
+<tr>
+<th>Pno</th>
+<th>Pname</th>
+<th>Adress</th>
+<th>Age</th>
+<th>Disease</th>
+</tr>
+<%while(rs.next()){ %>
+<tr>
+<td><%=rs.getInt(1) %></td>
+<td><%=rs.getString(2) %></td>
+<td><%=rs.getString(3) %></td>
+<td><%=rs.getInt(4) %></td>
+<td><%=rs.getString(5)%></td>
+</tr>
+<%} %>
+</table>
+<% }catch(Exception e)
+{
+System.out.println(e);
+}%>
+</body>
+</html>
+
+/* 2.Write a Java program to create LinkedList of String objects and perform the following:
+i.
+Add element at the end of the list
+ii.
+Delete first element of the list
+iii.Display the contents of list in reverse order
+
+*/
+package prasad;
+import java.util.*;
+public class slip3b 
+{
+ public static void main(String[] args) 
+ {
+   LinkedList<String> ll=new LinkedList<String>();
+   ll.add("Aditya");
+   ll.add("Prasad");
+   ll.add("Gaurav");
+   ll.add("Ritesh");
+   System.out.println("Original LinkedList:\n"+ll);
+   int ch=0;
+   Scanner sc=new Scanner(System.in);
+   do
+   {
+	   System.out.println("\n1.Add End\n2.Delete First\n3.Reverse Order\n4.Exit\nEnter Your Choice:");
+	   ch=sc.nextInt();
+	   switch(ch)
+	   {
+	     case 1 : System.out.println("Enter Element To Add End:");
+	               String n=sc.next();
+	               ll.addLast(n);
+	               System.out.println(ll);
+	               
+	               break;
+	     case 2 : ll.removeFirst(); System.out.println(ll);
+				  break;
+	     case 3 : System.out.println("Content In Reversed Order:"+ll.reversed());
+                  break;
+	     default : System.out.println("Exit..!");
+	   }
+   }while(ch<3);
+ }
+}
+play the contents of list in reverse order
+*/
