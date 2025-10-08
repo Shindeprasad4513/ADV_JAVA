@@ -1,0 +1,66 @@
+//1.Write a java program to create a TreeSet, add some colors (String) and print out the content of TreeSet in ascending order. [10 M]
+
+package prasad;
+
+import java.util.TreeSet;
+
+public class slip16a {
+  public static void main(String[] args) {
+	TreeSet<String> color=new TreeSet<String>();//treeset auto display in ascending order 
+    color.add("red");
+    color.add("pink");
+    color.add("blue");
+    color.add("orange");
+    color.add("white");
+    System.out.println("Colors in Ascending order:\n"+color);
+  }
+}
+
+
+//2.Write a Java program to accept the details of Teacher (TNo, TName, Subject). Insert at least 5 Records into Teacher Table and display the details of Teacher who is teaching “JAVA” Subject. (Use PreparedStatement Interface
+
+package prasad;
+import java.sql.*;
+public class slip16b {
+ public static void main(String[] args) throws Exception {
+	Class.forName("org.postgresql.Driver");
+	Connection con;
+	PreparedStatement pmt;
+	con=DriverManager.getConnection("jdbc:postgresql://localhost:5432/postgres","postgres","prasad");
+   /* String q="create table teacher(tno int,tname varchar(20),sub varchar(20))";
+    pmt=con.prepareStatement(q);
+    pmt.execute();
+    String q1="insert into teacher values(?,?,?)";
+    pmt=con.prepareStatement(q1);
+    pmt.setInt(1, 101);
+    pmt.setString(2,"bakare");
+    pmt.setString(3,"os");
+    pmt.executeUpdate();
+    pmt.setInt(1, 102);
+    pmt.setString(2,"shinde");
+    pmt.setString(3,"php");
+    pmt.executeUpdate();
+    pmt.setInt(1, 103);
+    pmt.setString(2,"unde");
+    pmt.setString(3,"java");
+    pmt.executeUpdate();
+    pmt.setInt(1, 104);
+    pmt.setString(2,"wamane");
+    pmt.setString(3,"cn");
+    pmt.executeUpdate();
+    pmt.setInt(1, 105);
+    pmt.setString(2,"pawar");
+    pmt.setString(3,"tcs");
+    pmt.executeUpdate();
+    */
+    String q2="select * from teacher where sub=?";
+    pmt=con.prepareStatement(q2);
+    pmt.setString(1,"java");
+    ResultSet rs=pmt.executeQuery();
+    while(rs.next())
+    {
+    	System.out.println("Teacher Deatails Who Teach Java\n"+rs.getInt("tno")+"\t"+rs.getString("tname")+"\t"+rs.getString("sub"));
+    }
+ }
+}
+
