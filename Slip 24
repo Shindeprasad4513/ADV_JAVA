@@ -1,0 +1,84 @@
+//1.Write a java program to display name of currently executing Thread in multithreading [10 M]
+
+package prasad;
+
+public class slip24a extends Thread 
+{
+	public void run()  
+	{	
+		try
+		{
+			System.out.println("Name Of Currently Executing Thread::"+Thread.currentThread().getName());
+		}catch(Exception e)
+		{
+			System.out.println(e);
+		}
+	}
+  public static void main(String[] args) 
+  {
+	slip24a t=new slip24a();
+	t.start();
+  }
+}
+
+
+//2.Write a JSP script to accept username and password from user, if they are same then display “Login Successfully” message in Login.html file, otherwise display “Login Failed” Message in Error.html file.
+
+login.jsp
+<%@ page language="java" contentType="text/html; charset=ISO-8859-1" pageEncoding="ISO-8859-1"%>
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Login Page</title>
+</head>
+<body>
+    <h2>Login Form</h2>
+    <form method="post" action="">
+        Username: <input type="text" name="uname" required><br><br>
+        Password: <input type="password" name="pass" required><br><br>
+        <input type="submit" value="Login">
+    </form>
+
+<%
+    // Get input values from user
+    String uname = request.getParameter("uname");
+    String pass = request.getParameter("pass");
+
+    // Check if both username and password are entered
+    if (uname != null && pass != null) {
+        if (uname.equals(pass)) {
+            // Redirect to Login.html if both are same
+            response.sendRedirect("Login.html");
+        } else {
+            // Redirect to Error.html if not same
+            response.sendRedirect("Error.html");
+        }
+    }
+%>
+</body>
+</html>
+
+
+Login.html
+
+<!DOCTYPE html>
+<html>
+<head>
+<title>Login Success</title>
+</head>
+<body>
+    <h2 style="color:green;">Login Successfully ✅</h2>
+</body>
+</html>
+
+Error.html
+
+<!DOCTYPE html>
+<html>
+<head>
+<title>Login Failed</title>
+</head>
+<body>
+    <h2 style="color:red;">Login Failed ❌</h2>
+</body>
+</html>
