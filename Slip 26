@@ -1,0 +1,58 @@
+//1.Write a Java program to delete the details of given employee (ENo EName Salary). Accept employee ID from User. (Use PreparedStatement Interface)
+ 
+package prasad;
+import java.sql.*;
+import java.util.*;
+public class slip26a {
+
+	public static void main(String[] args)throws Exception {
+     Class.forName("org.postgresql.Driver");
+     Connection con;
+     PreparedStatement pmt;
+     con=DriverManager.getConnection("jdbc:postgresql://localhost:5432/postgres","postgres","prasad");
+     Scanner sc=new Scanner(System.in);
+     System.out.println("Enter Employee id To Delete:");
+     int id=sc.nextInt();
+     String q="delete from emp where eno=?";
+     pmt=con.prepareStatement(q);
+     pmt.setInt(1, id);
+     pmt.executeUpdate();
+     System.out.println("Employee Details Deleted Sucessful.!");
+	}
+
+}
+
+
+
+//2.Write a JSP program to calculate sum of first and last digit of a given number. Display sum in Red Color with font size 18
+
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+pageEncoding="UTF-8"%>
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+<form >
+<input type="text" name="number" placeholder="Enter Number">
+<input type="submit" value="Calculate">
+</form>
+<%
+String no=request.getParameter("number");
+if(no!=null)
+{
+int n=Integer.parseInt(no),last,first;
+last=n%10;
+while(n>=10)
+{
+n=n/10;
+}
+first=n;
+int sum=first+last;
+out.println("<h1 style=color:red;>sum:"+sum+"</h1>");
+}
+%>
+</body>
+</html>
