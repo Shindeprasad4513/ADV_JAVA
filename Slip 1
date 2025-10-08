@@ -1,0 +1,113 @@
+//1.Write a Java program to display all the alphabets between ‘A’ to ‘Z’ after every 2 seconds. [10 M]
+
+package prasad;
+import java.util.*;
+public class alpha extends Thread
+{
+
+	public void run()
+	{
+    for(char ch='a';ch<='z';ch++)
+	   {
+    	System.out.println(ch);
+		try
+		{
+	       Thread.sleep(2000);    
+		}catch(Exception e)
+        {
+			System.out.println(e);
+        }
+	}
+	}
+	public static void main(String[] args) 
+	{
+	   alpha a=new alpha();
+	   a.start();
+	}
+
+}
+
+
+//2.Write a Java program to accept the details of Employee (Eno, EName, Designation, Salary) from a user and store it into the database. (Use Swing).
+
+package prasad;
+
+import java.awt.GridLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+
+import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+import javax.swing.JTextField;
+
+public class slip1b implements ActionListener   
+{
+    JTextField t1,t2,t3,t4;
+    JButton save;
+    JLabel l1,l2,l3,l4;
+    JFrame frame;
+    slip1b()
+	{
+		frame=new JFrame();
+		frame.setSize(400,500);
+		frame.setLayout(new GridLayout(5,2));
+		l1=new JLabel("Eno");
+		frame.add(l1);
+ 	    t1=new JTextField(5);
+ 	    frame.add(t1);
+   	   l2=new JLabel("Ename");
+		frame.add(l2);
+	    t2=new JTextField(5);
+	    frame.add(t2);
+	    l3=new JLabel("Designation");
+		frame.add(l3);
+ 	    t3=new JTextField(5);
+ 	    frame.add(t3);
+ 	   l4=new JLabel("sal");
+		frame.add(l4);
+	    t4=new JTextField(5);
+	    frame.add(t4);
+	    save=new JButton("Save");
+	    frame.add(save);
+	    save.addActionListener(this);
+	    frame.setVisible(true);
+
+	}
+public void actionPerformed(ActionEvent e)  
+  {
+     if(e.getSource()==save)
+     {
+    	 try
+    	 {
+    		 Class.forName("org.postgresql.Driver");
+    		 Connection con=DriverManager.getConnection("jdbc:postgresql://localhost:5432/postgres","postgres","prasad");
+    		 int eno=Integer.parseInt(t1.getText());
+    		 String name=t2.getText();
+    		 String desg=t3.getText();
+    		 int sal=Integer.parseInt(t4.getText());
+    		 String q="insert into emp values(?,?,?,?)";
+    		 PreparedStatement pmt=con.prepareStatement(q);
+    		 pmt.setInt(1,eno);
+    		 pmt.setString(2,name);
+    		 pmt.setString(3,desg);
+    		 pmt.setInt(4,sal);
+    		 pmt.executeUpdate();
+    		 JOptionPane.showMessageDialog(null,"Save Record","Sucesss", JOptionPane.INFORMATION_MESSAGE);
+    		 
+    		 }catch(Exception ee)
+    	 {
+    		 System.out.println(ee);
+    	 }
+     }
+  } 
+  public static void main(String[] args) 
+  {
+	 new slip1b();
+  }
+   
+}
