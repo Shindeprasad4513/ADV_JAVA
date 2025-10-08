@@ -1,0 +1,70 @@
+//1.Write a JSP script to accept a String from a user and display it in reverse order.
+
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+pageEncoding="UTF-8"%>
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+<form >
+<input type="text" name="string" placeholder="Enter String">
+<input type="submit" value="Reverse">
+</form>
+<%
+String input=request.getParameter("string");
+if(input!=null)
+{
+char[] array=input.toCharArray();
+String reversed="";
+for(int i=array.length-1;i>=0;i--)
+{
+reversed+=array[i];
+}
+out.println("Reversed String: "+reversed);
+}
+%>
+</body>
+</html>
+
+/*
+2.Write a Java program to create LinkedList of String objects and perform the following:
+i. Add element at the end of the list
+ii. Delete first element of the list
+iii. Display the contents of list in reverse order
+*/
+
+
+import java.util.LinkedList;
+import java.util.ListIterator;
+
+public class LinkedListDemo {
+    public static void main(String[] args) {
+
+        // Create a LinkedList of String
+        LinkedList<String> list = new LinkedList<>();
+
+        // i. Add elements at the end
+        list.add("Apple");
+        list.add("Banana");
+        list.add("Cherry");
+        list.add("Date");
+        System.out.println("After adding elements: " + list);
+
+        // ii. Delete first element
+        if (!list.isEmpty()) {
+            String removed = list.removeFirst();
+            System.out.println("Removed first element: " + removed);
+        }
+        System.out.println("After removing first element: " + list);
+
+        // iii. Display contents in reverse order
+        System.out.println("Contents in reverse order:");
+        ListIterator<String> li = list.listIterator(list.size());
+        while (li.hasPrevious()) {
+            System.out.println(li.previous());
+        }
+    }
+}
