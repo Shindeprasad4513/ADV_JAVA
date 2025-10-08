@@ -1,0 +1,129 @@
+//1.Write a Java Program to create the hash table that will maintain the mobile number and student name. Display the details of student using Enumeration interface. [10 M]2.
+package prasad;
+import java.util.*;
+public class slip5a 
+{
+  public static void main(String[] args) {
+	Hashtable<String,String> h=new Hashtable<>();
+	h.put("994422213", "Om");
+	h.put("994422216", "Sai");
+	h.put("994422215", "Ram");
+	h.put("994422214", "Sham");
+	h.put("994422212", "Aman");
+	Enumeration<String> e=h.keys();
+	while(e.hasMoreElements())
+	{ 
+		
+		String no=e.nextElement();
+		String name=h.get(no);
+		System.out.println("Student name:"+name+"\nMobile no:"+no);
+	}
+}
+}
+
+
+
+
+
+//2.Design an HTML page which passes customer number to a search servlet. The servlet searches for the customer number in a database (customer table) and returns customer details if found the number otherwise display error message
+
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Customer Search</title>
+</head>
+<body>
+    <h2>Search Customer Details</h2>
+    <form action="SearchCustomerServlet" method="post">
+        <label for="customerNumber">Enter Customer Number:</label>
+        <input type="text" id="customerNumber" name="customerNumber" required>
+        <br><br>
+        <input type="submit" value="Search">
+    </form>
+</body>
+</html>
+
+
+
+
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+@WebServlet("/SearchCustomerServlet")
+public class SearchCustomerServlet extends HttpServlet {
+    private static final long serialVersionUID = 1L;
+
+    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        response.setContentType("text/html");
+        PrintWriter out = response.getWriter();
+
+        String customerNumber = request.getParameter("customerNumber");
+
+        Connection conn = null;
+        PreparedStatement ps = null;
+        ResultSet rs = null;
+
+        try {
+            // Load the JDBC driver
+            Class.forName("com.mysql.cj.jdbc.Driver"); // Or your specific database driver
+
+            // Establish database connection
+            conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/your_database", "your_username", "your_password");
+
+            // Prepare the SQL query
+            String sql = "SELECT customer_name, customer_email, customer_address FROM customer WHERE customer_id = ?";
+            ps = conn.prepareStatement(sql);
+            ps.setString(1, customerNumber);
+
+            // Execute the query
+            rs = ps.executeQuery();
+
+            if (rs.next()) {
+                // Customer found, display details
+                out.println("<html><body>");
+                out.println("<h2>Customer Details</h2>");
+                out.println("<p>Customer Name: " + rs.getString("customer_name") + "</p>");
+                out.println("<p>Customer Email: " + rs.getString("customer_email") + "</p>");
+                out.println("<p>Customer Address: " + rs.getString("customer_address") + "</p>");
+                out.println("</body></html>");
+            } else {
+                // Customer not found
+                out.println("<html><body>");
+                out.println("<h2>Error</h2>");
+                out.println("<p>Customer with number " + customerNumber + " not found.</p>");
+                out.println("</body></html>");
+            }
+
+        } catch (ClassNotFoundException e) {
+            out.println("<html><body>");
+            out.println("<h2>Error</h2>");
+            out.println("<p>JDBC Driver not found: " + e.getMessage() + "</p>");
+            out.println("</body></html>");
+        } catch (SQLException e) {
+            out.println("<html><body>");
+            out.println("<h2>Database Error</h2>");
+            out.println("<p>An error occurred while accessing the database: " + e.getMessage() + "</p>");
+            out.println("</body></html>");
+        } finally {
+            // Close resources
+            try {
+                if (rs != null) rs.close();
+                if (ps != null) ps.close();
+                if (conn != null) conn.close();
+            } catch (SQLException e) {
+                e.printStackTrace(); // Log the exception
+            }
+        }
+    }
+}
