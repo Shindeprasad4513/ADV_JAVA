@@ -1,0 +1,74 @@
+//1.Write a Java program to display information about all columns in the DONAR table using ResultSetMetaData. [10 M]
+package prasad;
+import java.sql.*;
+public class slip11a  
+{
+  public static void main(String[] args)throws Exception {
+	Class.forName("org.postgresql.Driver");
+	Connection con;
+	PreparedStatement pmt;
+	con=DriverManager.getConnection("jdbc:postgresql://localhost:5432/postgres","postgres","prasad");
+	String q="select * from donar";
+	pmt=con.prepareStatement(q);
+	ResultSet rs=pmt.executeQuery();	
+	ResultSetMetaData rm=rs.getMetaData(); 
+	System.out.println("Total no of Columns:"+rm.getColumnCount());
+	System.out.println("Column 1 label:"+rm.getColumnLabel(1));
+	System.out.println("Column 2 label:"+rm.getColumnLabel(2));
+    System.out.println("Column 1 Name:"+rm.getColumnName(1));
+    System.out.println("Column 2 Name:"+rm.getColumnName(2));
+    System.out.println("Table Name"+rm.getTableName(1));
+    System.out.println("Column Type:"+rm.getColumnType(1));
+  }
+}
+
+
+
+//2.Design an HTML page which passes customer number to a search servlet. The servlet searches for the customer number in a database (customer table) and returns customer details if found the number otherwise display error message.
+
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+<form action="customer" method="post">
+<input type="text" name="number" placeholder="Enter customer number">
+<input type="submit" value="serach">
+</form>
+</body>
+</html>
+Servlet
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.sql.*;
+import jakarta.servlet.ServletException;
+import jakarta.servlet.annotation.WebServlet;
+import jakarta.servlet.http.*;
+@WebServlet("/customer")
+public class slip11_1 extends HttpServlet
+{
+@Override
+protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+try
+{
+Class.forName("org.postgresql.Driver");
+Connection con=DriverManager.getConnection("jdbc:postgresql://localhost:5432/mahesh","postgres","");
+String no=req.getParameter("number");
+int number=Integer.parseInt(no);
+PrintWriter out=resp.getWriter();
+String q="select * from customer where cno=?";
+PreparedStatement p=con.prepareStatement(q);
+p.setInt(1, number);
+ResultSet rs=p.executeQuery();
+while(rs.next())
+{
+out.println(rs.getInt(1)+" "+rs.getString(2)+" "+rs.getString(3));
+}
+}catch(Exception e)
+{
+System.out.println(e);
+}
+}
+}
