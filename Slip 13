@@ -1,0 +1,78 @@
+//1.Write a Java program to display information about the database and list all the tables in the database. (Use DatabaseMetaData). [10 M]
+package prasad;
+import java.sql.*;
+public class slip13a {
+
+	public static void main(String[] args)throws Exception {
+	 Class.forName("org.postgresql.Driver");
+	 Connection con;
+	 con=DriverManager.getConnection("jdbc:postgresql://localhost:5432/postgres","postgres","prasad");
+     DatabaseMetaData d=con.getMetaData();
+     System.out.println("UserName:"+d.getUserName());
+     System.out.println("Product Name:"+d.getDatabaseProductName());
+	 System.out.println("Product version"+d.getDatabaseProductVersion());
+	 System.out.println("Table Type:"+d.getTableTypes());
+	 System.out.println("Time And Date Function:"+d.getTimeDateFunctions());
+	}
+
+}
+
+
+
+//2.Write a program to calculate the sum and average of an array of 100 integers (generated randomly) using 10 threads. Each thread calculates the sum of 10 integers. Use these values to calculate average. [Use join method].
+package prasad;
+import java.util.*;
+public class slip13b extends Thread  
+{
+	String name;
+	Random r;
+	Thread t;
+	int a[],sum=0;
+	static double total=0;
+	slip13b(String name)throws InterruptedException
+	{
+		r=new Random();
+		t=new Thread(this);
+		a=new int[10];
+		this.name=name;
+	    for(int i=0;i<10;i++)
+	    {
+	    	a[i]=r.nextInt(100);
+	    }
+	    t.start();
+	    t.join();
+	}
+	public void run()
+	{
+		for(int i=0;i<10;i++)
+		{
+			System.out.println(name+"="+a[i]);
+		}
+		for(int i=0;i<10;i++)
+		{
+			sum=sum+a[i];
+		}
+		System.out.println("Sum of Threads:"+name+"="+sum);
+		total=total+sum;
+	}
+	static void avg()
+	{
+		double avg=total/10;
+		System.out.println("Total Thread="+total+"\nAverage="+avg);
+	}
+  public static void main(String[] args)throws InterruptedException {
+	  slip13b t1=new slip13b("T1");
+	  slip13b t2=new slip13b("T2");
+	  slip13b t3=new slip13b("T3");
+	  slip13b t4=new slip13b("T4");
+	  slip13b t5=new slip13b("T5");
+	  slip13b t6=new slip13b("T6");
+	  slip13b t7=new slip13b("T7");
+	  slip13b t8=new slip13b("T8");
+	  slip13b t9=new slip13b("T9");
+	  slip13b t10=new slip13b("T10");
+      avg();
+  }
+}
+
+
