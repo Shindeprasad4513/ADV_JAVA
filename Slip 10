@@ -1,0 +1,93 @@
+//1.Write a java program to display name of currently executing Thread in multithreading. [10 M]
+package prasad;
+import java.util.*;
+public class slip10a extends Thread 
+{
+	public void run()
+	{
+		System.out.println(Thread.currentThread().getName());
+	}
+  public static void main(String[] args) {
+	slip10a t=new slip10a();
+	slip10a t1=new slip10a();
+	slip10a t2=new slip10a();
+	t.start();t1.start();t2.start();
+}
+}
+
+
+
+/* 2.Write a Java program to display first record from student table (RNo, SName, Per) onto the TextFields by clicking on button. (Assume Student table is already created).
+[15 M]
+*/
+
+import java.awt.*;
+import java.awt.event.*;
+import java.sql.*;
+
+class DisplayFirstRecord extends Frame implements ActionListener {
+    TextField t1, t2, t3;
+    Button b1;
+    Connection con;
+    Statement st;
+    ResultSet rs;
+
+    DisplayFirstRecord() {
+        // Set up the frame
+        setLayout(new FlowLayout());
+        setTitle("Student Record Viewer");
+        setSize(350, 250);
+
+        // Create labels and text fields
+        Label l1 = new Label("Roll No:");
+        Label l2 = new Label("Student Name:");
+        Label l3 = new Label("Percentage:");
+
+        t1 = new TextField(20);
+        t2 = new TextField(20);
+        t3 = new TextField(20);
+
+        b1 = new Button("Show First Record");
+        b1.addActionListener(this);
+
+        // Add components to frame
+        add(l1); add(t1);
+        add(l2); add(t2);
+        add(l3); add(t3);
+        add(b1);
+
+        // Database connection
+        try {
+            // Change connection string as per your database
+            Class.forName("org.postgresql.Driver"); // For PostgreSQL
+            con = DriverManager.getConnection("jdbc:postgresql://localhost:5432/yourdbname", "yourusername", "yourpassword");
+            st = con.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
+            rs = st.executeQuery("SELECT * FROM Student");
+        } catch (Exception e) {
+            System.out.println("Error in connection: " + e);
+        }
+
+        setVisible(true);
+    }
+
+    public void actionPerformed(ActionEvent ae) {
+        try {
+            if (rs != null && rs.first()) {
+                t1.setText(String.valueOf(rs.getInt("RNo")));
+                t2.setText(rs.getString("SName"));
+                t3.setText(String.valueOf(rs.getFloat("Per")));
+            } else {
+                t1.setText("");
+                t2.setText("");
+                t3.setText("");
+                System.out.println("No records found.");
+            }
+        } catch (Exception e) {
+            System.out.println("Error: " + e);
+        }
+    }
+
+    public static void main(String args[]) {
+        new DisplayFirstRecord();
+    }
+}
