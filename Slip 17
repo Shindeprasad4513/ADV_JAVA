@@ -1,0 +1,78 @@
+//1.Write a java program to accept ‘N’ integers from a user. Store and display integers in sorted order having proper collection class. The collection should not accept duplicate elements.
+package prasad;
+import java.util.*;
+public class slip17a {
+ public static void main(String[] args) {
+	Scanner sc=new Scanner(System.in);
+    int n;
+    System.out.println("Enter NO of Elements:");
+    n=sc.nextInt();
+    HashSet no=new HashSet();
+    System.out.println("Enter "+n+" numbers:");
+    for(int i=0;i<n;i++)
+    {
+    	no.add(sc.nextInt());
+    }
+    System.out.println("Numbers in ascending Order:"+no);
+
+
+ }
+}
+
+
+
+//2.Write a Multithreading program in java to display the number’s between 1 to 100 continuously in a TextField by clicking on button. (Use Runnable Interface).
+
+import java.awt.*;
+import java.awt.event.*;
+
+class NumberThread implements Runnable {
+    TextField tf;
+    Thread t;
+
+    NumberThread(TextField tf) {
+        this.tf = tf;
+        t = new Thread(this);
+        t.start(); // Start the thread
+    }
+
+    public void run() {
+        try {
+            for (int i = 1; i <= 100; i++) {
+                tf.setText(String.valueOf(i)); // Display number in TextField
+                Thread.sleep(100); // 100 ms delay for visibility
+            }
+        } catch (InterruptedException e) {
+            System.out.println(e);
+        }
+    }
+}
+
+public class NumberDisplayApp extends Frame implements ActionListener {
+    TextField tf;
+    Button b1;
+
+    NumberDisplayApp() {
+        setLayout(new FlowLayout());
+        setSize(300, 150);
+        setTitle("Number Display (1–100)");
+
+        tf = new TextField(20);
+        b1 = new Button("Start Display");
+        b1.addActionListener(this);
+
+        add(new Label("Numbers:"));
+        add(tf);
+        add(b1);
+
+        setVisible(true);
+    }
+
+    public void actionPerformed(ActionEvent ae) {
+        new NumberThread(tf);  // Start new thread on button click
+    }
+
+    public static void main(String args[]) {
+        new NumberDisplayApp();
+    }
+}
