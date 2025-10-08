@@ -1,0 +1,71 @@
+//1.Write a java program to accept a String from a user and display each vowel from a String after every 3 seconds. [10 M]
+
+package prasad;
+import java.util.*;
+public class slip23a extends Thread {
+    Scanner sc=new Scanner(System.in);
+	
+    public void run() 
+    {
+	 System.out.println("Enter String:");
+     String s=sc.next();
+     for(int i=0;i<=s.length();i++)
+     {
+       char ch=s.charAt(i);
+       if(ch=='a' || ch=='e' || ch=='i'|| ch=='o' || ch=='u')
+       {
+      	System.out.println(ch);
+		try 
+		{
+      	 Thread.currentThread().sleep(3000);
+      	
+		}catch(InterruptedException e)
+		{
+	   System.out.println(e);
+		}
+       }
+     } 
+    }
+	public static void main(String[] args) 
+	{
+	   slip23a t=new slip23a();
+	   t.start();
+	}
+
+}
+
+
+//2.Write a java program to accept ‘N’ student names through command line, store them into the appropriate Collection and display them by using Iterator and ListIterator interface.
+
+
+package prasad;
+import java.util.*;
+public class slip23b 
+{
+    public static void main(String[] args) 
+    {
+    	if(args.length==0)
+    	{
+    		System.out.println("Please Provide Student name as Argument.!");
+    		return;
+    	}
+    	ArrayList<String> s=new ArrayList<String>();
+    	for(String str:args)
+    	{
+    		s.add(str);
+    	}
+    	System.out.println("Student Name Using Iterator");
+    	Iterator it=s.iterator();
+    	while(it.hasNext())
+    	{
+    		System.out.println(it.next());
+    	}
+    	System.out.println("Student name Using ListIterator");
+    	ListIterator lit=s.listIterator();
+    	while(lit.hasNext())
+    	{
+    		System.out.println(lit.next());
+    	}
+    }
+	}
+
