@@ -1,0 +1,75 @@
+//1.Write a program to create a new tree set, add some colors (string) and print out the tree set. [10 M]
+package prasad;
+import java.util.*;
+public class slip9a {
+
+	public static void main(String[] args) {
+		TreeSet color=new TreeSet();
+		color.add("Red");
+		color.add("Orange");
+		color.add("Pink");
+		color.add("Green");
+		color.add("Blue");
+        System.out.println(color);		
+	}
+
+}
+
+
+
+/*
+2.Write a java program for the following:
+i. To create a Product (Pid, Pname, Price) table.
+ii. Insert at least five records into the table.
+iii. Display all the records from a table.
+*/
+package prasad;
+import java.sql.*;
+public class slip8b//slip9b
+{
+
+	public static void main(String[] args) throws Exception
+	{
+       Class.forName("org.postgresql.Driver");
+       Connection con;
+       PreparedStatement pmt;
+       con=DriverManager.getConnection("jdbc:postgresql://localhost:5432/postgres","postgres","prasad");
+       
+       String q="create table prod(id int,name varchar(20),prize int)";
+       pmt=con.prepareStatement(q);
+       pmt.execute();
+       String q1="insert into prod values(?,?,?)";
+       pmt=con.prepareStatement(q1);
+       pmt.setInt(1,111);
+       pmt.setString(2,"mobile");
+       pmt.setInt(3,12000);
+       pmt.executeUpdate();
+       pmt.setInt(1,222);
+       pmt.setString(2,"EarPhone");
+       pmt.setInt(3,2000);
+       pmt.executeUpdate();
+       pmt.setInt(1,333);
+       pmt.setString(2,"Fridge");
+       pmt.setInt(3,20000);
+       pmt.executeUpdate();
+       pmt.setInt(1,444);
+       pmt.setString(2,"Laptop");
+       pmt.setInt(3,18000);
+       pmt.executeUpdate();
+       pmt.setInt(1,555);
+       pmt.setString(2,"TV");
+       pmt.setInt(3,15000);
+       pmt.executeUpdate();
+       String q2="select * from prod";	
+       pmt=con.prepareStatement(q2);
+       
+       ResultSet rs=pmt.executeQuery();
+       while(rs.next())
+       {
+    	   System.out.println(rs.getInt("id")+"\t"+rs.getString("name")+"\t"+rs.getInt("prize"));
+       }
+
+	}
+
+}
+
