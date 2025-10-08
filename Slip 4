@@ -1,0 +1,82 @@
+//1.Write a Java program to display all the alphabets between ‘A’ to ‘Z’ after every 2 seconds. [10 M]
+package prasad;
+import java.util.*;
+public class alpha extends Thread
+{
+
+	public void run()
+	{
+    for(char ch='a';ch<='z';ch++)
+	   {
+    	System.out.println(ch);
+		try
+		{
+	       Thread.sleep(2000);    
+		}catch(Exception e)
+        {
+			System.out.println(e);
+        }
+	}
+	}
+	public static void main(String[] args) 
+	{
+	   alpha a=new alpha();
+	   a.start();
+	}
+
+}
+
+
+
+/*
+2.Write a Java program to store city names and their STD codes using an appropriate collection and perform following operations:
+i.
+Add a new city and its code (No duplicates)
+ii.
+Remove a city from the collection
+iii.
+Search for a city name and display the code
+*/
+package prasad;
+import java.util.*;
+public class slip4b 
+{
+	public static void main(String[] args) {
+       HashMap h=new HashMap();
+       h.put("Pune",223344);
+       h.put("Nagar",224267);
+       h.put("Rahata",537755);
+       h.put("Pune",463432);
+       Scanner sc=new Scanner(System.in);
+       int ch=0;
+       do
+       {
+    	   System.out.println("\n1.add\n2.Remove City\n3,Search City and Display STD\n");
+    	   System.out.println("Entr Your Choice:");
+    	   ch=sc.nextInt();
+           switch(ch)
+           {
+           case 1 : 
+        	       System.out.println("Enter City And STD code To Add:");
+        	       String city=sc.next(); 
+        	       int std=sc.nextInt(); 
+        	       h.put(city,std); 
+        	       System.out.println(h);break;
+           case 2 : 
+        	   System.out.println("Enter City To Delete:");
+    	       city=sc.next();
+        	   h.remove(city);
+        	   System.out.println(h); break;
+           case 3 :
+        	   System.out.println("Enter City To Search:");
+    	       city=sc.next();
+    	       if(h.containsKey(city))
+    	    	   System.out.println(h.values()); 
+    	       else
+    	    	   System.out.println("Key not found"); 
+    	       break;
+           }
+       }while(ch<3);
+	}
+
+}
